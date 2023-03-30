@@ -7,7 +7,7 @@ Using the information already entered to MongoDB for the previous assignment, yo
 Leverage the Async.js library or mongo $lookup aggregation capability to join the entities.
 
 
-## Requirements
+## Requirementss
 - Create a collection in MongoDB (Mongo Atlas) to hold reviews about existing movies.
     - A review contains the name of the reviewer, a small quote about what they thought about the movie, and their rating out of five stars.
         - movieId (from the movie collection)
