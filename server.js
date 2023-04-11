@@ -298,7 +298,7 @@ router.route('/reviews')
     .post(authJwtController.isAuthenticated, function(req, res) {
         if (!req.body.small_quote || !req.body.rating || !req.body.title)
         {
-            return res.json({ success: false, message: 'Please include all information for small quote, rating, and title to query.'});
+            return res.json({ success: false, message: 'Please include all information for small review, rating, and title to query.'});
         }
         else {
             var review = new Review();
@@ -319,7 +319,7 @@ router.route('/reviews')
                         } else {
                             review.movie_id = movie._id;
                             review.username = ver_res.username;
-                            review.small_quote = req.body.small_quote;
+                            review.review = req.body.review;
                             review.rating = req.body.rating;
 
                             review.save (function (err) {
