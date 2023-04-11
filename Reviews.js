@@ -1,57 +1,31 @@
-// var mongoose = require('mongoose');
-// var Schema = mongoose.Schema;
-// var bcrypt = require('bcrypt-nodejs');
-
-// mongoose.Promise = global.Promise;
-
-// //mongoose.connect(process.env.DB, { useNewUrlParser: true });
-// try {
-//     mongoose.connect( process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true}, () =>
-//         console.log("connected"));
-// }catch (error) {
-//     console.log("could not connect");
-// }
-// mongoose.set('useCreateIndex', true);
-
-// //reviews schema
-// var ReviewSchema = new Schema({
-//     user_id: {type: Schema.Types.ObjectID, ref: "UserSchema", required: true},
-//     movie_id: { type: Schema.Types.ObjectId, ref: "MovieSchema", required: true},
-//     username: { type: String, required: true},
-//     review: { type: String, required: true},
-//     rating: { type: Number, min: 1, max: 5, required: true}
-// });
-
-// ReviewSchema.pre('save', function(next) {
-//     next();
-// });
-
-// //return the model to server
-// module.exports = mongoose.model('Review', ReviewSchema);
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-require('dotenv').config();
-mongoose.connect(process.env.DB);
+var bcrypt = require('bcrypt-nodejs');
 
-// Movie schema
+mongoose.Promise = global.Promise;
+
+//mongoose.connect(process.env.DB, { useNewUrlParser: true });
+try {
+    mongoose.connect( process.env.DB, {useNewUrlParser: true, useUnifiedTopology: true}, () =>
+        console.log("connected"));
+}catch (error) {
+    console.log("could not connect");
+}
+mongoose.set('useCreateIndex', true);
+
+//reviews schema
 var ReviewSchema = new Schema({
-    movieId: { type: mongoose.Schema.Types.ObjectId, ref:'Movie', required: true, index: false },
-    username: {
-        type: String,
-        required: true
-    },
-    rating: {
-        type: Number,
-        required: true,
-        min: 1,
-        max: 5
-    },
-    review: {
-        type: String,
-        required: true
-    },
+    user_id: {type: Schema.Types.ObjectID, ref: "UserSchema", required: true},
+    movie_id: { type: Schema.Types.ObjectId, ref: "MovieSchema", required: true},
+    username: { type: String, required: true},
+    review: { type: String, required: true},
+    rating: { type: Number, min: 1, max: 5, required: true}
 });
 
-// return the model
+ReviewSchema.pre('save', function(next) {
+    next();
+});
+
+//return the model to server
 module.exports = mongoose.model('Review', ReviewSchema);
+
