@@ -425,10 +425,10 @@ router.post('/signin', function (req, res) {
 
 router.route('/movies')
     .post(authJwtController.isAuthenticated, function (req, res) {
-        if(req.body.Actors.length < 3){
+        if(req.body.actors.length < 3){
             res.status(400).json({message: "Need at least 3 actors"});
         }else {
-            Movie.find({Title: req.body.Title}, function (err, data) {
+            Movie.find({title: req.body.title}, function (err, data) {
                 if (err) {
                     res.status(400).json({message: "Invalid query"});
                 } else if (data.length == 0) {
@@ -477,7 +477,7 @@ router.route('/movies')
                                     from: 'reviews',
                                     localField: '_id',
                                     foreignField: 'Movie_ID',
-                                    as: 'Reviews'
+                                    as: 'reviews'
                                 }
                             }],function(err, doc) {
                             if(err){
@@ -505,7 +505,7 @@ router.route('/movies')
                                     from: 'reviews',
                                     localField: '_id',
                                     foreignField: 'Movie_ID',
-                                    as: 'Reviews'
+                                    as: 'reviews'
                                 }
                             }],function(err, data) {
                             if(err){
@@ -524,8 +524,8 @@ router.route('/movies')
     })
 
     .put(authJwtController.isAuthenticated, function(req,res) {
-        if(req.body.Title != null && req.body.Year != null && req.body.Genre != null && req.body.Actors != null && req.body.Actors.length >= 3){
-            Movie.findOneAndUpdate({Title:req.body.Search},
+        if(req.body.title != null && req.body.year_released != null && req.body.genre != null && req.body.actors != null && req.body.actors.length >= 3){
+            Movie.findOneAndUpdate({title:req.body.Search},
                 {
                     title: req.body.title,
                     year_released: req.body.year_released,
@@ -549,7 +549,7 @@ router.route('/movies')
     })
 
     .delete(authJwtController.isAuthenticated, function(req,res){
-        Movie.findOneAndDelete({Title: req.body.Title}, function(err, doc){
+        Movie.findOneAndDelete({title: req.body.title}, function(err, doc){
             if(err){
                 res.status(400).json({message:err});
             }
@@ -572,7 +572,7 @@ router.route('/movies/:movieId')
             // If reviews query parameter is "true", include movie information and reviews
             Movie.aggregate([
                 { $match: { '_id': mongoose.Types.ObjectId(req.query.movieId)} },
-                { $lookup: { from: "reviews", localField: "_id", foreignField: "Movie_ID", as: "Reviews" } },
+                { $lookup: { from: "reviews", localField: "_id", foreignField: "Movie_ID", as: "reviews" } },
                 { $sort: { "reviews.createdAt": -1 } }
             ], function (err, movie) {
                 if (err) {
@@ -606,7 +606,7 @@ router.route('/reviews')
                 res.status(400).json({message: "Invalid query"});
             }else if (data != null){
                 let rev = new Review({
-                    Name: decoded.username,
+                    username: decoded.username,
                     review: req.body.review,
                     rating: req.body.rating,
                     movie_ID: req.body.movie_ID
